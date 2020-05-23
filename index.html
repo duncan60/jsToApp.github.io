@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie6 lte9 lte8 lte7" lang="zh-tw"><![endif]-->
+<!--[if IE 8]><html class="ie8 lte9 lte8" lang="zh-tw"><![endif]-->
+<!--[if IE 9]><html class="ie9 lte9" lang="zh-tw"><![endif]-->
+<!--[if IE 7]><html class="ie7 lte9 lte8 lte7" lang="zh-tw"><![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8) | !(IE 9)  ]><!-->
+<html lang="zh-tw">
+<!--<![endif]-->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable:no">
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+
+    <title>js to app demo</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h3>基本</h3>
+                <button type="button" class="btn btn-success" onclick="bindOrcaMembershipResult('SUCCESS');return false;">SUCCESS</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('PHONE_EXISTED_ORCA');return false;">PHONE_EXISTED_ORCA</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('PHONE_EXISTED_MR');return false;">PHONE_EXISTED_MR</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3>客製</h3>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" onclick="setTextarea('page1');return false;"> 首頁牌卡
+                  </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" onclick="setTextarea('page2');return false;"> 小樹點紀錄
+                  </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" onclick="setTextarea('page3');return false;"> 點數兌換
+                  </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" onclick="setTextarea('page4');return false;"> 都是我的
+                  </label>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Result</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="16"></textarea>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" id="submit">送出</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script>
+        function responseNativeResult(parmas) {
+            console.log(parmas);
+            params = (typeof params !== 'undefined') ? params : "";
+            // for Android
+            try {
+                if (JSInterface) JSInterface.bindOrcaMembershipResult(params);
+            } catch (err) {
+                console.log(params);
+            }
+
+            // for iOS
+
+            try {
+                window.webkit.messageHandlers.bindOrcaMembershipResult.postMessage(params);
+            } catch (err) {
+                console.log(params);
+            }
+        }
+
+        function bindOrcaMembershipResult(StatusCode) {
+            params = {
+                "StatusCode": StatusCode,
+                "Value": {
+                    "IdentityId": "834be8df-d286-4dda-be40-41d575159fca",
+                    "ProjectId": "630d851c-4b58-471a-9570-4d572b217619",
+                    "IdentityPoolId": "3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
+                    "Credentials": {
+                        "IdToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGlfaHViIjp7InByb2plY3RfaWQiOiIxM2VhY2ViZi1hMDMwLTQ3YjgtYTE1Yi01MDU4YTU1MDE2YzEiLCJpZGVudGl0eV9wb29sX2lkIjoiYTgwMmYxODMtZmVhNS00Y2UyLWI3YTQtYjFlYWExZWE5YzUxIiwiaWRlbnRpdHlfaWQiOiJmZTNiZWM1My1jYzRkLTQxNjUtOGJiNi01YjQ4YzIxZThhNzAiLCJvcmlnaW4iOiJjb20uY2F0aGF5Lm15cmV3YXJkcyIsInJvbGUiOiJ1c2VyIn0sInBlcm1pc3Npb24iOlsiKi8qIl0sInRpbWVzdGFtcCI6MTU5MDIzNTQ5MDQ3NywiaWF0IjoxNTkwMjM1NDkwLCJleHAiOjE1OTAyMzkwOTAsInN1YiI6ImlkX3Rva2VuIiwiYXVkIjoiYXBpX2h1YiJ9.jbALoCTZhvfIZhMKMdMSDY3x_BRWSxmg95trlKipoRE",
+                        "AuthorizationCode": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGlfaHViIjp7InByb2plY3RfaWQiOiIxM2VhY2ViZi1hMDMwLTQ3YjgtYTE1Yi01MDU4YTU1MDE2YzEiLCJpZGVudGl0eV9wb29sX2lkIjoiYTgwMmYxODMtZmVhNS00Y2UyLWI3YTQtYjFlYWExZWE5YzUxIiwiaWRlbnRpdHlfaWQiOiJmZTNiZWM1My1jYzRkLTQxNjUtOGJiNi01YjQ4YzIxZThhNzAiLCJvcmlnaW4iOiJjb20uY2F0aGF5Lm15cmV3YXJkcyIsInJvbGUiOiJ1c2VyIn0sInBlcm1pc3Npb24iOlsiKi8qIl0sInRpbWVzdGFtcCI6MTU5MDIzNTUyNzg3NywiaWF0IjoxNTkwMjM1NTI3LCJleHAiOjE1OTAyMzkxMjcsInN1YiI6ImlkX3Rva2VuIiwiYXVkIjoiYXBpX2h1YiJ9.Fa7cS-iqt6uVPnuJE0mrV-KXmIGG0Jhx1AkAUwewDHA"
+                    },
+                    "Query": {
+                        "entryPoint": "home_get_point"
+                    }
+                }
+            };
+            responseNativeResult(params);
+        }
+
+        function setTextarea(action) {
+            var params = {
+                "StatusCode": "SUCCESS",
+                "Value": {
+                    "IdentityId": "834be8df-d286-4dda-be40-41d575159fca",
+                    "ProjectId": "630d851c-4b58-471a-9570-4d572b217619",
+                    "IdentityPoolId": "3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
+                    "Credentials": {
+                        "IdToken": "eyJ0eXAiOiJ",
+                        "AuthorizationCode": "eyJ0eXAiOiJKV1QiLCJhbGciOiA"
+                    },
+                    "Query": {
+                        "entryPoint": action
+                    }
+                }
+            };
+            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
+        }
+        $(document).ready(function() {
+            setTextarea("home_get_point");
+            $("#submit").click(function() {
+                responseNativeResult($('#exampleFormControlTextarea1').val());
+            })
+        });
+    </script>
+</body>
+
+</html>
