@@ -22,6 +22,9 @@
         .btn {
             margin-bottom: 10px;
         }
+        p, form {
+          margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -38,18 +41,31 @@
         <div class="card">
             <div class="card-body">
                 <h3>客製</h3>
+                <p>entryPoint</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" onclick="setTextarea('page1');return false;"> 首頁牌卡
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option1" onclick="setEntryPointTextarea('home_get_point');"> 首頁牌卡
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" onclick="setTextarea('page2');return false;"> 小樹點紀錄
+                    <input type="radio" name="options" id="option2" onclick="setEntryPointTextarea('my_point_page');"> 小樹點紀錄
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" onclick="setTextarea('page3');return false;"> 點數兌換
+                    <input type="radio" name="options" id="option3" onclick="setEntryPointTextarea('exchange_page');"> 點數兌換
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" onclick="setTextarea('page4');return false;"> 都是我的
+                    <input type="radio" name="options" id="option3" onclick="setEntryPointTextarea('is_my_page');"> 都是我的
+                  </label>
+                </div>
+                <p>StatusCode</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option1" onclick="setStatusCodeTextarea('SUCCESS');"> SUCCESS
+                  </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" onclick="setStatusCodeTextarea('PHONE_EXISTED_ORCA');"> PHONE_EXISTED_ORCA
+                  </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" onclick="setStatusCodeTextarea('PHONE_EXISTED_MR');"> PHONE_EXISTED_MR
                   </label>
                 </div>
                 <form>
@@ -72,7 +88,6 @@
             try {
                 if (JSInterface) JSInterface.bindOrcaMembershipResult(params);
             } catch (err) {
-                console.log(params);
             }
 
             // for iOS
@@ -80,7 +95,6 @@
             try {
                 window.webkit.messageHandlers.bindOrcaMembershipResult.postMessage(params);
             } catch (err) {
-                console.log(params);
             }
         }
 
@@ -103,8 +117,18 @@
             responseNativeResult(params);
         }
 
-        function setTextarea(action) {
-            var params = {
+        function setEntryPointTextarea(action) {
+            var params = JSON.parse($('#exampleFormControlTextarea1').val())
+            params.Value.Query.entryPoint = action;          
+            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
+        }
+        function setStatusCodeTextarea(code) {
+            var params = JSON.parse($('#exampleFormControlTextarea1').val())
+            params.StatusCode = code;
+            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
+        }
+        $(document).ready(function() {
+            var paramsInit =  {
                 "StatusCode": "SUCCESS",
                 "Value": {
                     "IdentityId": "834be8df-d286-4dda-be40-41d575159fca",
@@ -115,14 +139,11 @@
                         "AuthorizationCode": "eyJ0eXAiOiJKV1QiLCJhbGciOiA"
                     },
                     "Query": {
-                        "entryPoint": action
+                        "entryPoint": 'home_get_point'
                     }
                 }
             };
-            $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
-        }
-        $(document).ready(function() {
-            setTextarea("home_get_point");
+            $('#exampleFormControlTextarea1').text(JSON.stringify(paramsInit, undefined, 4));
             $("#submit").click(function() {
                 responseNativeResult($('#exampleFormControlTextarea1').val());
             })
