@@ -34,8 +34,8 @@
             <div class="card-body">
                 <h3>基本</h3>
                 <button type="button" class="btn btn-success" onclick="bindOrcaMembershipResult('1', 'success');return false;">SUCCESS</button>
-                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-1', 'binding duplicated');return false;">PHONE_EXISTED_ORCA</button>
-                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-99', 'binding fail unknown');return false;">PHONE_EXISTED_MR</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-1', 'binding duplicated');return false;">binding duplicated</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-99', 'binding fail unknown');return false;">unknown</button>
             </div>
         </div>
         <div class="card">
@@ -62,10 +62,10 @@
                     <input type="radio" name="options" id="option1" onclick="setStatusCodeTextarea('1', 'success');"> SUCCESS
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" onclick="setStatusCodeTextarea('-1', 'binding duplicated');"> PHONE_EXISTED_ORCA
+                    <input type="radio" name="options" id="option2" onclick="setStatusCodeTextarea('-1', 'binding duplicated');"> binding duplicated
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" onclick="setStatusCodeTextarea('-99', 'binding fail unknown');"> PHONE_EXISTED_MR
+                    <input type="radio" name="options" id="option3" onclick="setStatusCodeTextarea('-99', 'binding fail unknown');"> unknown
                   </label>
                 </div>
                 <form>
