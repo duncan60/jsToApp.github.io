@@ -33,9 +33,9 @@
         <div class="card">
             <div class="card-body">
                 <h3>基本</h3>
-                <button type="button" class="btn btn-success" onclick="bindOrcaMembershipResult('SUCCESS');return false;">SUCCESS</button>
-                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('PHONE_EXISTED_ORCA');return false;">PHONE_EXISTED_ORCA</button>
-                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('PHONE_EXISTED_MR');return false;">PHONE_EXISTED_MR</button>
+                <button type="button" class="btn btn-success" onclick="bindOrcaMembershipResult('1', 'success');return false;">SUCCESS</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-1', 'binding duplicated');return false;">PHONE_EXISTED_ORCA</button>
+                <button type="button" class="btn btn-warning" onclick="bindOrcaMembershipResult('-99', 'binding fail unknown');return false;">PHONE_EXISTED_MR</button>
             </div>
         </div>
         <div class="card">
@@ -59,13 +59,13 @@
                 <p>StatusCode</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option1" onclick="setStatusCodeTextarea('SUCCESS');"> SUCCESS
+                    <input type="radio" name="options" id="option1" onclick="setStatusCodeTextarea('1', 'success');"> SUCCESS
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" onclick="setStatusCodeTextarea('PHONE_EXISTED_ORCA');"> PHONE_EXISTED_ORCA
+                    <input type="radio" name="options" id="option2" onclick="setStatusCodeTextarea('-1', 'binding duplicated');"> PHONE_EXISTED_ORCA
                   </label>
                     <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" onclick="setStatusCodeTextarea('PHONE_EXISTED_MR');"> PHONE_EXISTED_MR
+                    <input type="radio" name="options" id="option3" onclick="setStatusCodeTextarea('-99', 'binding fail unknown');"> PHONE_EXISTED_MR
                   </label>
                 </div>
                 <form>
@@ -98,46 +98,39 @@
             }
         }
 
-        function bindOrcaMembershipResult(StatusCode) {
-            params = {
-                "StatusCode": StatusCode,
-                "Value": {
-                    "IdentityId": "834be8df-d286-4dda-be40-41d575159fca",
-                    "ProjectId": "630d851c-4b58-471a-9570-4d572b217619",
-                    "IdentityPoolId": "3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
-                    "IdToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGlfaHViIjp7InByb2plY3RfaWQiOiIxM2VhY2ViZi1hMZhMKMdMSDY3x_BRWSxmg95trlKipoRE",
-                    "AuthorizationCode": "eyJ0eXa2VuIiwiYXVkIjoiYXBpX2h1YiJ9.Fa7cS-iqt6uVPnuJE0mrV-KXmIGG0Jhx1AkAUwewDHA",
-                    "Query": {
-                        "entryPoint": "home_get_point"
-                    }
-                }
+        function bindOrcaMembershipResult(RtnCode, RtnMsg) {
+            var params = {
+              "RtnCode": RtnCode, 
+              "RtnMsg": RtnMsg,
+              "ProjectId":"630d851c-4b58-471a-9570-4d572b217619",
+              "IdentityPoolId":"834be8df-d286-4dda-be40-41d575159fca",
+              "IdentityId":"3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
+              "AuthorizationCode":"eyJ0eXAiOiJKV1QiLCJhbGciOiA",
+              "Query": window.btoa("home_get_point")
             };
             responseNativeResult(params);
         }
 
         function setEntryPointTextarea(action) {
             var params = JSON.parse($('#exampleFormControlTextarea1').val())
-            params.Value.Query.entryPoint = action;          
+            params.Query = window.btoa(action);          
             $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
         }
-        function setStatusCodeTextarea(code) {
+        function setStatusCodeTextarea(RtnCode, RtnMsg) {
             var params = JSON.parse($('#exampleFormControlTextarea1').val())
-            params.StatusCode = code;
+            params.RtnCode = RtnCode;
+            params.RtnMsg = RtnMsg;
             $('#exampleFormControlTextarea1').text(JSON.stringify(params, undefined, 4));
         }
         $(document).ready(function() {
-            var paramsInit =  {
-                "StatusCode": "SUCCESS",
-                "Value": {
-                    "IdentityId": "834be8df-d286-4dda-be40-41d575159fca",
-                    "ProjectId": "630d851c-4b58-471a-9570-4d572b217619",
-                    "IdentityPoolId": "3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
-                    "IdToken": "eyJ0eXAiOiJ",
-                    "AuthorizationCode": "eyJ0eXAiOiJKV1QiLCJhbGciOiA",
-                    "Query": {
-                        "entryPoint": 'home_get_point'
-                    }
-                }
+            var paramsInit = {
+              "RtnCode": "1", 
+              "RtnMsg": 'success',
+              "ProjectId":"630d851c-4b58-471a-9570-4d572b217619",
+              "IdentityPoolId":"834be8df-d286-4dda-be40-41d575159fca",
+              "IdentityId":"3b9edfba-c4ce-48f2-9ac0-8bc9242890f9",
+              "AuthorizationCode":"eyJ0eXAiOiJKV1QiLCJhbGciOiA",
+              "Query": window.btoa("home_get_point")
             };
             $('#exampleFormControlTextarea1').text(JSON.stringify(paramsInit, undefined, 4));
             $("#submit").click(function() {
